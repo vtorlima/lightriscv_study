@@ -1,0 +1,71 @@
+# LightRISCV
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/menotti/lightriscv)
+
+https://www.youtube.com/playlist?list=PLBZWofG0oRh8
+
+Single & Multi-cycle implementation of a subset of RISC-V for educational purposes. 
+
+The first version of this processor (multicycle) was adapted from the MIPS processor described in the Harris & Harris book[^1]. The single-cycle version was created from Bruno Levy's multicycle code[^2], with signal names changed to match those in the book.
+
+## Instructions
+
+Use the Makefile to select the processor variant and the Verilog style.
+
+Valid values:
+- `VERSION`: `SINGLE` or `MULTI`
+- `STYLE`: `DATAFLOW` or `STRUCT`
+
+Examples:
+```bash
+make
+make single-struct
+make single-dataflow
+make multi-struct
+make multi-dataflow
+make VERSION=MULTI
+make STYLE=STRUCT
+make VERSION=MULTI STYLE=STRUCT
+```
+
+The `VERSION` and `STYLE` options can be combined to select any of the four
+single/multicycle and dataflow/structural variants.
+
+The single-cycle implementations separate their combinational
+controller from the datapath; unlike the multicycle version, it has no FSM.
+Both multicycle implementations share the state machine in
+[`multicycle_fsm.sv`](./multicycle_fsm.sv). Opcode definitions and immediate
+format functions are centralized in [`riscv_constants.sv`](./riscv_constants.sv),
+which the Makefile compiles before the processor modules.
+
+> Warning: Always `make clean` when changing version/style!
+
+The default build is the single-cycle version.
+
+`MULTI` enables the multicycle assembly path and uses the multicycle datapath. `STRUCT` selects the structural Verilog description; `DATAFLOW` uses the dataflow version.
+
+## Implemented instructions
+* add
+* addi
+* lw
+* sw
+* jal (incomplete)
+
+## EDA Playground (old version)
+* [You can try it online here!](https://www.edaplayground.com/x/cTAA)
+
+
+## Further Reading 
+* [Guia Prático RISC-V (pt-br)](http://riscvbook.com/portuguese/)
+* [RISC-V Assembly Programming](https://riscv-programming.org/)
+* [RARS: RISC-V Assembler and Runtime Simulator](https://github.com/TheThirdOne/rars)
+* [Digital Design and Computer Architecture: RISC-V Edition](https://www.elsevier.com/books/digital-design-and-computer-architecture/harris/978-0-12-820064-3)
+* [emulsiV: a visual simulator for a simple RISC-V processor](https://eseo-tech.github.io/emulsiV/)
+* [DarkRISCV: Opensource RISC-V implemented from scratch in one night!](https://github.com/darklife/darkriscv)
+
+## References
+
+[^1]: [Digital Design and Computer Architecture](https://shop.elsevier.com/books/digital-design-and-computer-architecture/harris/978-0-12-394424-5)
+[^2]: [From Blinker to RISC-V](https://github.com/BrunoLevy/learn-fpga/blob/master/FemtoRV/TUTORIALS/FROM_BLINKER_TO_RISCV/)
+
+[![YouTube Playlist with instructions (in portuguese)](https://img.youtube.com/vi/cuiVdmo3TxM/0.jpg)](https://www.youtube.com/playlist?list=PLBZWofG0oRh8)

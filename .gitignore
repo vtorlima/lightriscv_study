@@ -1,0 +1,9 @@
+.password
+*.gabarito
+project*
+*.out
+*.o
+*.elf
+*.vcd
+*.hex
+*.lst
